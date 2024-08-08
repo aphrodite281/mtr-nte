@@ -25,7 +25,7 @@ public class TrainWrapper {
     public boolean shouldRender;
     public boolean isInDetailDistance;
 
-    private final TrainClient train;
+    public final TrainClient train;
     private PlatformLookupMap trainPlatforms;
     private List<PathData> trainPlatformsValidPath;
 
