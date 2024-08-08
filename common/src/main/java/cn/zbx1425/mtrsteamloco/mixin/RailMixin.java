@@ -29,7 +29,7 @@ import java.util.Map;
 @Mixin(value = Rail.class, priority = 1425)
 public abstract class RailMixin implements RailExtraSupplier {
 
-    private String modelKey = "";
+    private String modelKey = "114514";
     private boolean isSecondaryDir = false;
     private float verticalCurveRadius = 0f;
 
