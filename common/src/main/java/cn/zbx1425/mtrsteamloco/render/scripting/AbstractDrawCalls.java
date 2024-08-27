@@ -1,11 +1,15 @@
 package cn.zbx1425.mtrsteamloco.render.scripting;
 
+import cn.zbx1425.mtrsteamloco.render.scripting.eyecandy.TickableSound;
 import cn.zbx1425.mtrsteamloco.render.scripting.util.DynamicModelHolder;
 import cn.zbx1425.sowcer.math.Matrix4f;
 import cn.zbx1425.sowcer.math.Vector3f;
 import cn.zbx1425.sowcerext.model.ModelCluster;
 import cn.zbx1425.sowcerext.reuse.DrawScheduler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.Tickable;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
@@ -40,11 +44,13 @@ public abstract class AbstractDrawCalls {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class PlaySoundCall {
         public SoundEvent sound;
         public Vector3f position;
         public float volume;
         public float pitch;
+        public TickableSound tickableSound;
 
         public PlaySoundCall(SoundEvent sound, Vector3f position, float volume, float pitch) {
             this.sound = sound;
@@ -53,11 +59,20 @@ public abstract class AbstractDrawCalls {
             this.pitch = pitch;
         }
 
+        public PlaySoundCall(TickableSound tickableSound) {
+            this.tickableSound = tickableSound;
+        }
+
         public void commit(ClientLevel level, Matrix4f worldPose) {
-            Vector3f worldPos = worldPose.transform(position);
-            level.playLocalSound(worldPos.x(), worldPos.y(), worldPos.z(),
-                    sound, SoundSource.BLOCKS,
-                    volume, pitch, false);
+            if(tickableSound!= null){
+                Vector3f worldPos = worldPose.transform(position);
+                level.playLocalSound(worldPos.x(), worldPos.y(), worldPos.z(),
+                        sound, SoundSource.BLOCKS,
+                        volume, pitch, false);
+            } else {
+                SoundManager soundManager = Minecraft.getInstance().getSoundManager();
+                soundManager.play(tickableSound);
+            }
         }
     }
 }

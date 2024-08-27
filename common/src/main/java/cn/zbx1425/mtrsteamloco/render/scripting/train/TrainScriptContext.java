@@ -16,6 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
+import mtr.sound.TrainLoopingSoundInstance;
+
 @SuppressWarnings("unused")
 public class TrainScriptContext extends AbstractScriptContext {
 
@@ -95,6 +97,13 @@ public class TrainScriptContext extends AbstractScriptContext {
         );
     }
 
+    public SoundEvent createSoundEvent(ResourceLocation sound) {
+        #if MC_VERSION >= "11903"
+                return SoundEvent.createVariableRangeEvent(sound);
+        #else
+                return new SoundEvent(sound);
+    }
+    
     public void playAnnSound(ResourceLocation sound, float volume, float pitch) {
         Minecraft.getInstance().execute(() -> {
             LocalPlayer player = Minecraft.getInstance().player;

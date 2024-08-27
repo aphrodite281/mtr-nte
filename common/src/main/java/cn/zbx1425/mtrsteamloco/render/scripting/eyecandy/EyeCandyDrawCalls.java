@@ -31,6 +31,10 @@ public class EyeCandyDrawCalls extends AbstractDrawCalls {
         soundList.add(new PlaySoundCall(sound, Vector3f.ZERO, volume, pitch));
     }
 
+    public void addTickableSound(TickableSound sound){
+        soundList.add(new PlaySoundCall(sound));
+    }
+
     public void commit(DrawScheduler drawScheduler, Matrix4f basePose, int light) {
         for (ClusterDrawCall clusterDrawCall : drawList) {
             clusterDrawCall.commit(drawScheduler, basePose, light);

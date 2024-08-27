@@ -7,9 +7,12 @@ import cn.zbx1425.sowcer.math.Matrices;
 import cn.zbx1425.sowcer.math.Matrix4f;
 import cn.zbx1425.sowcerext.model.ModelCluster;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import cn.zbx1425.mtrsteamloco.sound;
 
 public class EyeCandyScriptContext extends AbstractScriptContext {
 
@@ -75,12 +78,18 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
         return SoundEvent.createVariableRangeEvent(sound);
 #else
         return new SoundEvent(sound);
-#endif
-    
     }
 
     public void stopAllSounds() {
-        SoundManager soundManager = Minecraft.getInstance().getSoundManager();
-        soundManager.stop();
+        
+    }
+
+    public TickableSound createTickableSound(SoundEvent sound){
+        return new TickableSound(sound);
+    }
+
+    public void playTickableSound(TickableSound sound) {
+        scriptResultWriting.addTickableSound(sound);
+        //Minecraft.getInstance().getSoundManager().play(sound);
     }
 }
