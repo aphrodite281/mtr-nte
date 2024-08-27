@@ -73,5 +73,6 @@ public class EyeCandyScriptContext extends AbstractScriptContext {
         return SoundEvent.createVariableRangeEvent(sound);
 #else
         return new SoundEvent(sound);
+#endif
     }
 }
