@@ -18,23 +18,18 @@ public class VideoHelper {
         File videoFile = new File(path1.getPath());
         File outputFile = new File(path2.getPath());
 
-        // 检查视频文件是否存在
         if (!videoFile.exists()) {
             throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
         }
 
-        // 使用 FFprobe 获取视频信息
         FFprobe ffprobe = new FFprobe("ffprobe");
         FFmpegProbeResult probeResult = ffprobe.probe(videoFile.getAbsolutePath());
 
-        // 获取视频流信息
         FFmpegStream videoStream = probeResult.getStreams().get(0);
         int duration = (int) videoStream.duration;
 
-        // 计算帧时间
         float frameTime = (float) frame / videoStream.nb_frames * duration;
 
-        // 使用 FFmpeg 提取帧
         FFmpeg ffmpeg = new FFmpeg("ffmpeg");
         FFmpegBuilder builder = new FFmpegBuilder()
             .setInput(videoFile.getAbsolutePath())
@@ -51,17 +46,15 @@ public class VideoHelper {
         File videoFile = new File(path1.getPath());
         File outputFile = new File(path2.getPath());
 
-        // 检查视频文件是否存在
         if (!videoFile.exists()) {
             throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
         }
 
-        // 使用 FFmpeg 提取音频并保存为 OGG 格式
         FFmpeg ffmpeg = new FFmpeg("ffmpeg");
         FFmpegBuilder builder = new FFmpegBuilder()
             .setInput(videoFile.getAbsolutePath())
             .addOutput(outputFile.getAbsolutePath())
-            .setAudioCodec("libvorbis") // 设置音频编码器为 libvorbis，用于生成 OGG 格式
+            .setAudioCodec("libvorbis")
             .done();
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg);

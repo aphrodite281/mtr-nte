@@ -29,11 +29,11 @@ public class GraphicsTexture implements Closeable {
 
     public final int width, height;
 
-    public GraphicsTexture(int width, int height) {
+    public GraphicsTexture(int width, int height, ResourceLocation path) {
         this.width = width;
         this.height = height;
         dynamicTexture = new DynamicTexture(new NativeImage(width, height, false));
-        identifier = new ResourceLocation(Main.MOD_ID, String.format("dynamic/graphics/%s", UUID.randomUUID()));
+        identifier = path;
         Minecraft.getInstance().execute(() -> {
             Minecraft.getInstance().getTextureManager().register(identifier, dynamicTexture);
         });
@@ -41,6 +41,10 @@ public class GraphicsTexture implements Closeable {
         graphics = bufferedImage.createGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+    }
+
+    public GraphicsTexture(int width, int height){
+        this(width, height, new ResourceLocation(Main.MOD_ID, String.format("dynamic/graphics/%s", UUID.randomUUID())));
     }
 
     public static BufferedImage createArgbBufferedImage(BufferedImage src) {
