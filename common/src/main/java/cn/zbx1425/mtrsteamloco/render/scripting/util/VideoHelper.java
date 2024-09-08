@@ -24,7 +24,7 @@ public class VideoHelper {
         if (!videoFile.exists()) {
             throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
         }
-    Minecraft.getInstance().execute(() -> {
+
         FFprobe ffprobe = new FFprobe("ffprobe");
         FFmpegProbeResult probeResult = ffprobe.probe(videoFile.getAbsolutePath());
 
@@ -40,7 +40,8 @@ public class VideoHelper {
             .addOutput(outputFile.getAbsolutePath())
             .setFrames(1)
             .done();
-
+            
+    Minecraft.getInstance().execute(() -> {
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
     });
