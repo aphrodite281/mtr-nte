@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class VideoHelper {
 
-    public static void getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
+    public static BufferedImage getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
         File videoFile = new File(path1.getPath());
         File outputFile = new File(path2.getPath());
 
@@ -44,6 +44,27 @@ public class VideoHelper {
             .done();
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        executor.createJob(builder).run();
+    }
+
+    public static void getSound(ResourceLocation path1, ResourceLocation path2) throws IOException {
+        File videoFile = new File(path1.getPath());
+        File outputFile = new File(path2.getPath());
+
+        // 检查视频文件是否存在
+        if (!videoFile.exists()) {
+            throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
+        }
+
+        // 使用 FFmpeg 提取音频并保存为 OGG 格式
+        FFmpeg ffmpeg = new FFmpeg("ffmpeg");
+        FFmpegBuilder builder = new FFmpegBuilder()
+            .setInput(videoFile.getAbsolutePath())
+            .addOutput(outputFile.getAbsolutePath())
+            .setAudioCodec("libvorbis") // 设置音频编码器为 libvorbis，用于生成 OGG 格式
+            .done();
+
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg);
         executor.createJob(builder).run();
     }
 }
