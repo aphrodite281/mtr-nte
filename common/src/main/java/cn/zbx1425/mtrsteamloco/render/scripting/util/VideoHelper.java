@@ -15,8 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 public class VideoHelper {
 
     public static void getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
-        File videoFile = new File(path1.getPath());
-        File outputFile = new File(path2.getPath());
+        File videoFile = new File(grp(path1));
+        File outputFile = new File(grp(path2));
 
         if (!videoFile.exists()) {
             throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
@@ -43,8 +43,8 @@ public class VideoHelper {
     }
 
     public static void getSound(ResourceLocation path1, ResourceLocation path2) throws IOException {
-        File videoFile = new File(path1.getPath());
-        File outputFile = new File(path2.getPath());
+        File videoFile = new File(grp(path1));
+        File outputFile = new File(grp(path2));
 
         if (!videoFile.exists()) {
             throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
@@ -59,5 +59,9 @@ public class VideoHelper {
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg);
         executor.createJob(builder).run();
+    }
+
+    private static String grp(ResourceLocation path){
+        return "assets/" + path.getNamespace() + "/" + path.getPath();
     }
 }
