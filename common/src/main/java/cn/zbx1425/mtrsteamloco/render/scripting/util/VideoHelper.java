@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class VideoHelper {
 
-    public static void getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
+    public static void getFrame(String path1, int frame, String path2) throws IOException {
         File videoFile = new File(grp(path1));
         File outputFile = new File(grp(path2));
 
@@ -42,7 +42,7 @@ public class VideoHelper {
         executor.createJob(builder).run();
     }
 
-    public static void getSound(ResourceLocation path1, ResourceLocation path2) throws IOException {
+    public static void getSound(String path1, String path2) throws IOException {
         File videoFile = new File(grp(path1));
         File outputFile = new File(grp(path2));
 
@@ -61,7 +61,7 @@ public class VideoHelper {
         executor.createJob(builder).run();
     }
 
-    private static String grp(ResourceLocation path){
-        return "assets/" + path.getNamespace() + "/" + path.getPath();
+    private static String grp(String path){
+        return path;
     }
 }
