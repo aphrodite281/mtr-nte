@@ -1,0 +1,8 @@
+package cn.zbx1425.mtrsteamloco.render.scripting.util;
+
+import java.io.File;
+import java.io.IOException;
+
+public class VideoHelper {
+    
+}
