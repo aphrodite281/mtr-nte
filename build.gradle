@@ -45,7 +45,7 @@ configure(subprojects.findAll {it.name != 'rhino'}) {
 
 		implementation 'net.bramp.ffmpeg:ffmpeg:0.6.2'
 
-		implementation("org.bytedeco:javacv-platform:1.5.10")
+		
 	}
 
 	build.finalizedBy(mergeJars)
