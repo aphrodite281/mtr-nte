@@ -13,7 +13,45 @@ import net.bramp.ffmpeg.probe.FFmpegStream;
 import net.minecraft.resources.ResourceLocation;
 
 public class VideoHelper {
-    public static void getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
-        
+    
+    public static BufferedImage getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
+        File videoFile = new File(path1.getPath());
+        File outputFile = new File(path2.getPath());
+
+        // 检查视频文件是否存在
+        if (!videoFile.exists()) {
+            throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
+        }
+
+        // 使用 FFprobe 获取视频信息
+        FFprobe ffprobe = new FFprobe("ffprobe");
+        FFmpegProbeResult probeResult = ffprobe.probe(videoFile.getAbsolutePath());
+
+        // 获取视频流信息
+        FFmpegStream videoStream = probeResult.getStreams().get(0);
+        int duration = (int) videoStream.duration;
+
+        // 计算帧时间
+        float frameTime = (float) frame / videoStream.nb_frames * duration;
+
+        // 使用 FFmpeg 提取帧
+        FFmpeg ffmpeg = new FFmpeg("ffmpeg");
+        FFmpegBuilder builder = new FFmpegBuilder()
+            .setInput(videoFile.getAbsolutePath())
+            .addExtraArgs("-ss", String.valueOf(frameTime))
+            .addOutput(outputFile.getAbsolutePath())
+            .setFrames(1)
+            .done();
+
+        FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
+        executor.createJob(builder).run();
+
+        // 读取提取的帧
+        BufferedImage frameImage = ImageIO.read(outputFile);
+
+        // 删除临时文件
+        outputFile.delete();
+
+        return frameImage;
     }
 }
