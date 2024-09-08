@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class VideoHelper {
 
-    public static BufferedImage getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
+    public static void getFrame(ResourceLocation path1, int frame, ResourceLocation path2) throws IOException {
         File videoFile = new File(path1.getPath());
         File outputFile = new File(path2.getPath());
 
