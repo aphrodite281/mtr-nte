@@ -166,19 +166,27 @@ configure(allprojects.findAll {it.name != 'rhino'}) {
 	}
 }
 
+def getCommitHash() {
+	def process = "git rev-parse HEAD".execute()
+	process.waitFor()
+	return process.text.trim()
+}
+
+def commitHash = getCommitHash()
+
 forgix {
 	group = "cn.zbx1425"
-	mergedJarName = "MTR-NTE" + "-" + rootProject.mod_version + "+" + minecraft_version + ".jar"
+	mergedJarName = "MTR-NTE" + "-" + rootProject.mod_version + "+" + minecraft_version + commitHash + ".jar"
 	outputDir = "build/"
 
 	forge {
 		projectName = "forge"
-		jarLocation = "build/libs/forge" + "-" + rootProject.mod_version + "+" + minecraft_version + ".jar"
+		jarLocation = "build/libs/forge" + "-" + rootProject.mod_version + "+" + minecraft_version + commitHash + ".jar"
 	}
 
 	fabric {
 		projectName = "fabric"
-		jarLocation = "build/libs/fabric" + "-" + rootProject.mod_version + "+" + minecraft_version + ".jar"
+		jarLocation = "build/libs/fabric" + "-" + rootProject.mod_version + "+" + minecraft_version + commitHash + ".jar"
 	}
 }
 
