@@ -11,17 +11,20 @@ import net.bramp.ffmpeg.builder.FFmpegBuilder;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import net.bramp.ffmpeg.probe.FFmpegStream;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.Minecraft;
+
+
 
 public class VideoHelper {
 
     public static void getFrame(String path1, int frame, String path2) throws IOException {
-        File videoFile = new File(grp(path1));
-        File outputFile = new File(grp(path2));
+        File videoFile = new File(path1);
+        File outputFile = new File(path2);
 
         if (!videoFile.exists()) {
             throw new IOException("Video file does not exist: " + videoFile.getAbsolutePath());
         }
-
+    Minecraft.getInstance().execute(() -> {
         FFprobe ffprobe = new FFprobe("ffprobe");
         FFmpegProbeResult probeResult = ffprobe.probe(videoFile.getAbsolutePath());
 
@@ -40,8 +43,9 @@ public class VideoHelper {
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
         executor.createJob(builder).run();
+    });
     }
-
+/*
     public static void getSound(String path1, String path2) throws IOException {
         File videoFile = new File(grp(path1));
         File outputFile = new File(grp(path2));
@@ -64,4 +68,5 @@ public class VideoHelper {
     private static String grp(String path){
         return path;
     }
+*/
 }
