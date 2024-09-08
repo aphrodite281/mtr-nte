@@ -181,7 +181,7 @@ def runNumber = getRunNumber()
 
 forgix {
 	group = "cn.zbx1425"
-	mergedJarName = "MTR-NTE" + "-" + rootProject.mod_version + "+" + minecraft_version + "-" + runNumber + "-" + commitHash + ".jar"
+	mergedJarName = "MTR-NTE" + "-" + rootProject.mod_version + "#" + runNumber "+" + minecraft_version + ".jar"
 	outputDir = "build/"
 
 	forge {
